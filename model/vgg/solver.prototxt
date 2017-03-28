@@ -1,0 +1,19 @@
+net: "train_test.prototxt"
+
+test_iter: 500
+test_interval: 1000
+test_compute_loss: true
+
+# lr for fine-tuning should be lower than when starting from scratch
+base_lr: 0.001
+momentum: 0.9
+weight_decay: 0.0005
+lr_policy: "fixed"
+
+display: 1000
+max_iter: 500000
+snapshot: 10000
+snapshot_prefix: "VGG19_Emotion"
+
+solver_mode: GPU
+debug_info: false
