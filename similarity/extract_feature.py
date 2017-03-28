@@ -3,7 +3,7 @@
 # @Author: vasezhong
 # @Date:   2017-03-28 19:30:09
 # @Last Modified by:   vasezhong
-# @Last Modified time: 2017-03-28 19:50:48
+# @Last Modified time: 2017-03-28 20:34:14
 
 import caffe
 import skimage
@@ -57,3 +57,26 @@ class CnnFeatureExtractor(FeatureExtractor):
         self.forward(img_rgb)
         binary_feature = self.__net.blobs[self.config['binary_feature_layer_name']].data[0]
         return binary_feature.copy() > self.config['binary_threshold']
+
+
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) != 3:
+        print 'Usage: python extract_feature.py [img_file1] [img_file2]'
+        sys.exit(-1)
+
+    import cv2
+    import util
+    import config
+    extractor = FeatureExtractor(config.alexnet_config)
+
+    img_file1 = sys.argv[1].strip()
+    img_file2 = sys.argv[2].strip()
+
+    img_bgr1 = cv2.imread(img_file1)
+    img_bgr2 = cv2.imread(img_file2)
+    img_rgb1 = util.bgr2rgb(img_bgr1)
+    img_rgb2 = util.bgr2rgb(img_bgr2)
+    binary_feature1 = extractor.extract_binary_feature(img_rgb1)
+    binary_feature2 = extractor.extract_binary_feature(img_rgb2)
+    print util.hamming_distance(binary_feature1, binary_feature2)
