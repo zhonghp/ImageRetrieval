@@ -9,14 +9,15 @@ layer {
     phase: TRAIN
   }
   transform_param {
+    crop_size: 227
     mirror: true
     mean_file: "../bvlc_alexnet/imagenet_mean.binaryproto"
   }
   image_data_param {
     source: ""
     batch_size: 256
-    new_height: 227
-    new_width: 227
+    new_height: 256
+    new_width: 256
     shuffle: true
   }
 }
@@ -29,14 +30,15 @@ layer {
     phase: TEST
   }
   transform_param {
+    crop_size: 227
     mirror: false
     mean_file: "../bvlc_alexnet/imagenet_mean.binaryproto"
   }
   data_param {
     source: ""
     batch_size: 50
-    new_height: 227
-    new_width: 227
+    new_height: 256
+    new_width: 256
     shuffle: false
   }
 }
