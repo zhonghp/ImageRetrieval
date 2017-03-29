@@ -3,7 +3,7 @@
 # @Author: vasezhong
 # @Date:   2017-03-28 20:06:27
 # @Last Modified by:   vasezhong
-# @Last Modified time: 2017-03-28 20:18:59
+# @Last Modified time: 2017-03-29 16:57:01
 
 import os
 import sys
@@ -15,9 +15,19 @@ from extract_feature import CnnFeatureExtractor
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print 'Usage: python test_db.py [db_folder] [in_folder]'
+    if len(sys.argv) != 4:
+        print 'Usage: python test_db.py [db_folder] [in_folder] [id2url_file]'
         sys.exit(-1)
+
+   id2url = {}
+   id2url_file = sys.argv[3].strip()
+   with open(id2url_file, 'r') as reader:
+       lines = reader.readlines()
+       for line in lines:
+           segs = line.strip().split('\t')
+           id = segs[0].strip()
+           url = segs[1].strip()
+           id2url[id] = url
 
     feature_extractor = CnnFeatureExtractor(config.alexnet_config)
     db_folder = sys.argv[1].strip()
@@ -30,7 +40,7 @@ if __name__ == '__main__':
     assert len(db_files) == len(db_binary_features)
     print 'Totally', len(db_files), 'db images.'
 
-    in_folder = sys.argv[1].strip()
+    in_folder = sys.argv[2].strip()
     in_files = [in_file for in_file in os.listdir(in_folder)]
     in_binary_features = []
     for in_file in in_files:
@@ -52,3 +62,7 @@ if __name__ == '__main__':
         assert in_file not in id2distance
         id2distance[in_file] = min_distance
 
+   sorted_id2distance = sorted(id2distance.items(), lambda x, y: cmp(x[1], y[1]))
+   with open('distance.txt', 'w') as writer:
+       for (id, distance) in sorted_id2distance[:100]:
+           writer.write(str(distance) + '\t' + id2url[id] + '\n')
