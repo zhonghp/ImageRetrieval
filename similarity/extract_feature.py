@@ -3,7 +3,7 @@
 # @Author: vasezhong
 # @Date:   2017-03-28 19:30:09
 # @Last Modified by:   vasezhong
-# @Last Modified time: 2017-03-28 20:34:14
+# @Last Modified time: 2017-03-29 17:14:02
 
 import caffe
 import skimage
@@ -11,7 +11,7 @@ import numpy as np
 
 class FeatureExtractor:
     def __init__(self, config_dict):
-        self.config = config_dict
+        pass
 
     def extract_feature(self, img_rgb):
         pass
@@ -22,7 +22,7 @@ class FeatureExtractor:
 
 class CnnFeatureExtractor(FeatureExtractor):
     def __init__(self, config_dict):
-        FeatureExtractor.__init__(config_dict)
+        self.config = config_dict
 
         if self.config['gpu_id'] < 0:
             caffe.set_mode_cpu()
