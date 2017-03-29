@@ -3,7 +3,7 @@
 # @Author: vasezhong
 # @Date:   2017-03-28 20:06:27
 # @Last Modified by:   vasezhong
-# @Last Modified time: 2017-03-29 19:45:02
+# @Last Modified time: 2017-03-29 19:57:05
 
 import os
 import sys
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     with open(db_id2url_file, 'r') as reader:
         lines = reader.readlines()
         for line in lines:
-            segs = lin.strip().split('\t')
+            segs = line.strip().split('\t')
             id = segs[0].strip()
             url = segs[1].strip()
             db_id2url[id] = url
